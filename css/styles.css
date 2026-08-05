@@ -286,6 +286,24 @@ section > .container{ position:relative; z-index:2; }
 }
 @keyframes shimmer{ to{ background-position:-250% center; } }
 
+/* Typewriter reveal on the accent word, chased by a blinking caret */
+.hero-title .line:nth-child(3) .accent{
+  display:inline-block; max-width:0; overflow:hidden; white-space:nowrap; vertical-align:bottom;
+  border-right:3px solid var(--gold-light);
+}
+.hero-content.is-in .line:nth-child(3) .accent{
+  animation:
+    hero-type 1s steps(8,end) 1.5s forwards,
+    hero-caret-blink .8s step-end infinite 1.5s,
+    shimmer 5s linear infinite 2.5s;
+}
+@keyframes hero-type{ to{ max-width:8.6ch; } }
+@keyframes hero-caret-blink{ 0%,100%{ border-color:var(--gold-light); } 50%{ border-color:transparent; } }
+@media (prefers-reduced-motion: reduce){
+  .hero-title .line:nth-child(3) .accent{ max-width:none; border-right:none; }
+  .hero-content.is-in .line:nth-child(3) .accent{ animation:shimmer 5s linear infinite; }
+}
+
 .hero-sub{
   font-size:clamp(16px,1.9vw,19px); color:var(--gray); max-width:600px; margin-bottom:36px; line-height:1.75;
   opacity:0; transform:translateY(16px); transition:opacity .8s var(--ease) .55s, transform .8s var(--ease) .55s;
@@ -391,6 +409,24 @@ section > .container{ position:relative; z-index:2; }
 .amb-overlay p{ font-size:13.8px; color:var(--gray); line-height:1.65; max-width:300px; }
 
 /* ══════════════════════════════════════════════════════
+   STOCK EN BODEGA
+══════════════════════════════════════════════════════ */
+#stock{ background:var(--bg-1); }
+.stock-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:22px; }
+.stock-item{ position:relative; border-radius:18px; overflow:hidden; aspect-ratio:4/3; border:1px solid var(--line); background:var(--bg-0); }
+.stock-img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; transform:scale(1.12); transition:transform .7s var(--ease); }
+.stock-item:hover .stock-img{ transform:scale(1.24); }
+.stock-item-video .stock-img{ transform:none; }
+.stock-item-video:hover .stock-img{ transform:none; }
+.stock-item figcaption{
+  position:absolute; left:0; right:0; bottom:0; padding:16px 18px 14px;
+  background:linear-gradient(0deg, rgba(6,12,30,.95), transparent);
+  font-size:13.5px; color:var(--gray); font-weight:500; pointer-events:none;
+}
+.stock-item-video figcaption{ pointer-events:none; }
+.stock-item-video video::-webkit-media-controls{ pointer-events:auto; }
+
+/* ══════════════════════════════════════════════════════
    PROCESO
 ══════════════════════════════════════════════════════ */
 #proceso{ background:var(--bg-1); }
@@ -454,6 +490,13 @@ section > .container{ position:relative; z-index:2; }
 #marcas-productos{ background:var(--bg-1); padding:76px 0; }
 .marcas-logos-hdr{ text-align:center; max-width:620px; margin:0 auto 42px; }
 .marcas-logos-hdr p{ color:var(--gray); margin-top:12px; font-size:15px; }
+.marcas-oficial-note{
+  display:inline-flex; align-items:center; gap:10px; margin:18px auto 0; padding:11px 22px;
+  border-radius:999px; border:1px solid var(--line-strong); background:rgba(212,175,55,.07);
+  color:var(--gold-light) !important; font-size:14px !important; font-weight:500;
+}
+.marcas-oficial-note i{ color:var(--gold); }
+.marcas-oficial-note strong{ color:var(--white); font-weight:700; }
 .marcas-logos-grid{ display:grid; grid-template-columns:repeat(5,1fr); gap:24px; }
 .marca-logo-card{
   background:#fff; border-radius:18px; padding:28px 24px; height:170px;
@@ -560,6 +603,7 @@ footer{ background:var(--bg-0); border-top:1px solid var(--line); padding-top:70
   .ambientes-grid{ grid-template-columns:repeat(2,1fr); }
   .proceso-grid{ grid-template-columns:1fr; }
   .gallery-grid{ grid-template-columns:repeat(2,1fr); }
+  .stock-grid{ grid-template-columns:repeat(2,1fr); }
   .stats-grid{ grid-template-columns:repeat(2,1fr); gap:40px 24px; }
   .sectores-grid{ grid-template-columns:repeat(3,1fr); }
   .marcas-logos-grid{ grid-template-columns:repeat(3,1fr); }
@@ -580,6 +624,7 @@ footer{ background:var(--bg-0); border-top:1px solid var(--line); padding-top:70
   .ambientes-grid{ grid-template-columns:1fr; }
   .amb-card{ height:340px; }
   .gallery-grid{ grid-template-columns:1fr; }
+  .stock-grid{ grid-template-columns:1fr; }
   .stats-grid{ grid-template-columns:repeat(2,1fr); gap:34px 18px; }
   .sectores-grid{ grid-template-columns:repeat(2,1fr); }
   .marcas-logos-grid{ grid-template-columns:repeat(2,1fr); }
